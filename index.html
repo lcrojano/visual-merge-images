@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="dist/styles.css">
+    <script src="dist/index.js" defer></script>
+    <title>Visual Image Merger</title>
+</head>
+<body>
+    <header class="content">
+        <!-- Your logo here -->
+        <img src="logo.png" alt="Logo">
+    </header>
+    <main class="content">
+        <section class="align-center content">
+            <h1>Visual Image Merger</h1>
+            <p class="description">
+                Select images from local, URL, and XPath
+            </p>
+        </section>
+        <section class="flex-row content select-image-component">
+            <div class="flex-row">
+                <div>
+                    <input name="local_img" type="file" accept="image/*" text="select image" class="btn btn-primary">
+                        
+                    </input>
+                </div>
+                <div>
+                    or
+                </div>
+                <div id="options-component">
+                    <input type="url" name="url" id="url" placeholder="Enter URL">
+                    <input type="text" name="xpath" id="xpath" placeholder="Enter XPath">
+                </div>
+            </div>
+            <div>
+                <button id="add" class="btn btn-secondary">Add</button>
+            </div>
+        </section>
+              
+        <canvas id="canvas"></canvas>
+    </main>
+    <footer class="content">
+        <!-- Your footer content here -->
+    </footer>
+</body>
+</html>
