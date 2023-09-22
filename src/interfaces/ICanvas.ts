@@ -1,8 +1,8 @@
-interface ICanvas {
-    drawImage(image:HTMLImageElement,dx:number, dy:number): void;
+interface ICanvas extends IDrawable  {
+    addDrawable(drawable:IDrawable):void,
+    getContext(): CanvasRenderingContext2D;
     clear(): void;
-    getCanvasData(): ImageData;
     resize():void,
     zoom():void,
-    draw():void
+    draw(image?:HTMLImageElement,dx?:number, dy?:number,): void;
   }

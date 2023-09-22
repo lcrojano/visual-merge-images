@@ -1,6 +1,6 @@
 interface IDraggable{
-    isMoving:boolean;
-    onMouseMove():void;
-    onMouseUp():void;
-    onMouseDown():void;
+    toggleMoving():boolean;
+    onMouseMove(event:MouseEvent):any;
+    onMouseUp(event:MouseEvent):any;
+    onMouseDown(event:MouseEvent):any;
 }

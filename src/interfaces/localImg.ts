@@ -1,3 +1,0 @@
-interface IImage {
-    image: HTMLImageElement,
-}

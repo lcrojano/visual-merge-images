@@ -1,33 +1,56 @@
-class ImageComponent implements IImage, IDraggable {
+class ImageComponent implements IImage {
   image!: HTMLImageElement;
-  dx!: number;
-  dy!: number;
+  dx: number = 0;
+  dy: number = 0;
   width!: number;
   height!: number;
   canvas!: ICanvas;
-  constructor(canvas: ICanvas, file: File, dx: number, dy: number) {
+  ctx!: CanvasRenderingContext2D;
+  isMoving: boolean;
+  id: string;
+  name: string;
+  color?: string | undefined;
+ 
+  constructor(drawableImage: IImage, file: File, canvas: ICanvas) {
+    this.id = drawableImage.id;
+   
+    this.name = drawableImage.name;
     this.canvas = canvas;
+    this.ctx = canvas.getContext();
     this.image = new Image();
     this.image.src = URL.createObjectURL(file);
     this.image.onload = () => {
       this.width = this.image.naturalWidth;
       this.height = this.image.naturalHeight;
     };
-    this.dx = dx;
-    this.dy = dy;
+    this.isMoving = false;
+    this.canvas.addDrawable(this);
   }
-  isMoving: boolean = false;
-  onMouseMove(): void {
+
+  draw(
+   
+  ): void {
+    const drawImage = () => {
+      this.ctx.drawImage(this.image, this.dx ?? 0,  this.dy ?? 0);
+    };
+  
+    if (this.image.complete) {
+      drawImage();
+    } else {
+      this.image.onload = drawImage;
+    }
+  }
+
+  clear(): void {
     throw new Error("Method not implemented.");
   }
-  onMouseUp(): void {
+  getCanvasData(): ImageData {
     throw new Error("Method not implemented.");
   }
-  onMouseDown(): void {
+  resize(): void {
     throw new Error("Method not implemented.");
   }
- 
-  draw(dx?: number, dy?: number): void {
-    this.canvas.drawImage(this.image, dx ?? 0, dy ?? 0);
+  zoom(): void {
+    throw new Error("Method not implemented.");
   }
 }
