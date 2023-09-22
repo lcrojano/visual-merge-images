@@ -12,22 +12,25 @@ class CanvasComponent implements ICanvas {
     this.canvas.width = width;
     this.canvas.height = height;
   }
-  draw(): void {}
+  draw(): void {
+    throw new Error("Method not implemented.");
+  }
+  drawImage(image: HTMLImageElement, dx: number, dy: number): void {
+    image.onload = () => {
+      this.ctx.drawImage(image, dx ?? 0, dy ?? 0);
+    };
+  }
+  resize(): void {
+    throw new Error("Method not implemented.");
+  }
+  zoom(): void {
+    throw new Error("Method not implemented.");
+  }
+
   clear(): void {
     this.ctx.clearRect(0, 0, this.width, this.height);
   }
   getCanvasData(): ImageData {
     throw new Error("Method not implemented.");
   }
-  addLocalFiles(files: FileList): void {
-    for (const file of files) {
-      const image = new Image();
-      image.src = URL.createObjectURL(file);
-      image.onload = () => {
-        this.ctx.drawImage(image, 0, 0);
-      };
-    }
-  }
-
-  // Other methods and properties...
 }

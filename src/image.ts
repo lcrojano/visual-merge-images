@@ -1,3 +1,0 @@
-interface Image {
-    src: string;
-}

@@ -1,3 +1,0 @@
-interface LocalImage extends Image{
-    
-}
