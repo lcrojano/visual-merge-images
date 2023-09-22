@@ -11,6 +11,9 @@ addImageButton.addEventListener("click", (event) => {
   const localFiles: FileList | null = selectedImageInput.files;
 
   if (localFiles) {
-    canvas.addLocalFiles(localFiles);
+    for(let file of localFiles){
+        let drawing = new ImageComponent(canvas,file, 0,0)
+        drawing.draw()
+    }
   }
 });
