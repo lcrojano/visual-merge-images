@@ -1,4 +1,4 @@
-class ImageComponent implements IImage {
+class ImageComponent implements IImage, IDraggable {
   image!: HTMLImageElement;
   dx!: number;
   dy!: number;
@@ -15,6 +15,16 @@ class ImageComponent implements IImage {
     };
     this.dx = dx;
     this.dy = dy;
+  }
+  isMoving: boolean = false;
+  onMouseMove(): void {
+    throw new Error("Method not implemented.");
+  }
+  onMouseUp(): void {
+    throw new Error("Method not implemented.");
+  }
+  onMouseDown(): void {
+    throw new Error("Method not implemented.");
   }
  
   draw(dx?: number, dy?: number): void {
