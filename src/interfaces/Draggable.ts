@@ -1,4 +1,4 @@
-interface IDraggable{
+interface Draggable{
     toggleMoving():boolean;
     onMouseMove(event:MouseEvent):any;
     onMouseUp(event:MouseEvent):any;

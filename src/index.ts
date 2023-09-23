@@ -4,11 +4,7 @@ const canvas = new CanvasComponent({
   name: "capa1",
   width: 500,
   height: 500,
-} as IDrawable);
-
-function getCanvasComponent(): CanvasComponent {
-  return canvas;
-}
+} as DrawableElement);
 
 addImageButton.addEventListener("click", (event) => {
   const canvas = getCanvasComponent();
@@ -20,13 +16,13 @@ addImageButton.addEventListener("click", (event) => {
   if (localFiles) {
     const totalImages = localFiles.length;
     for (let i = 0; i < totalImages; i++) {
-      let drawing = new ImageComponent(
+      const drawing = canvas.createImage(
         {
           id: `${i}`,
           name: `image ${i}`,
           width: 400,
           height: 400,
-        } as IImage,
+        } as DrawableElement,
         localFiles[i],
         canvas
       );
@@ -34,3 +30,6 @@ addImageButton.addEventListener("click", (event) => {
     }
   }
 });
+function getCanvasComponent(): CanvasComponent {
+  return canvas;
+}

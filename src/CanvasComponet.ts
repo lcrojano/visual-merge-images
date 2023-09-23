@@ -1,18 +1,18 @@
-class CanvasComponent implements ICanvas {
+class CanvasComponent extends CanvasElement  {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
-   width: number;
-   height: number;
-   dx: number = 0;
-   dy: number = 0;
-  private drawables:(IDrawable)[] = [];
-   id: string;
-   name: string;
-   color?: string | undefined;
-  clickedDrawable: ImageComponent | undefined;
+  width: number;
+  height: number;
+  dx: number = 0;
+  dy: number = 0;
+  private drawables:(Drawable)[] = [];
+  id: string;
+  name: string;
+  color?: string | undefined;
+  clickedDrawable: ImageDraw | undefined;
  
-
-  constructor(drawable:IDrawable) {
+  constructor(drawable:DrawableElement) {
+    super();
     this.canvas = document.getElementById(drawable.id) as HTMLCanvasElement;
     this.ctx = this.canvas.getContext("2d") as CanvasRenderingContext2D;
     this.id = drawable.id;
@@ -27,7 +27,7 @@ class CanvasComponent implements ICanvas {
     this.canvas.addEventListener("mousemove",this.onMouseMove)
   }
 
-  addDrawable(drawable: IDrawable): void {
+  addDraw(drawable: Drawable): void {
     this.drawables.push(drawable);
     console.log("added", drawable);
     this.clear();
@@ -56,16 +56,16 @@ class CanvasComponent implements ICanvas {
     const x = event.offsetX;
     const y = event.offsetY;
     const drawables = this.drawables;
-    this.clickedDrawable = this.getClickDrawable(drawables as IImage[],x as number,y as number);
+    this.clickedDrawable = this.getClickDrawable(drawables as Image[],x as number,y as number);
     this.clickedDrawable ? this.clickedDrawable.isMoving = true : undefined ;
   };
 
-  getClickDrawable(drawables:IImage[],x:number,y:number) : ImageComponent | undefined {
+  getClickDrawable(drawables:Image[],x:number,y:number) : ImageDraw | undefined {
     for (let index = 0; index < drawables.length; index++) {
-      const drawable = drawables[index] as IImage;
+      const drawable = drawables[index] as Image;
   
       // Check if the drawable is an instance of the IImage interface.
-      if (drawable instanceof ImageComponent) {
+      if (drawable instanceof ImageDraw) {
         // Check if the mouse is inside the image.
         const rect = drawable.image.getBoundingClientRect();
          x = x - rect.left;
@@ -100,7 +100,6 @@ class CanvasComponent implements ICanvas {
   zoom(): void {
     throw new Error("Method not implemented.");
   }
-
   clear(): void {
     this.ctx.clearRect(0, 0, this.width, this.height);
   }
