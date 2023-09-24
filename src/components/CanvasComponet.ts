@@ -1,17 +1,17 @@
-class CanvasComponent extends CanvasElement  {
+class CanvasComponent extends Display {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
   width: number;
   height: number;
   dx: number = 0;
   dy: number = 0;
-  private drawables:(Drawable)[] = [];
+  private drawables: Drawable[] = [];
   id: string;
   name: string;
   color?: string | undefined;
   clickedDrawable: ImageDraw | undefined;
- 
-  constructor(drawable:DrawableElement) {
+
+  constructor(drawable: DrawableShape) {
     super();
     this.canvas = document.getElementById(drawable.id) as HTMLCanvasElement;
     this.ctx = this.canvas.getContext("2d") as CanvasRenderingContext2D;
@@ -22,9 +22,9 @@ class CanvasComponent extends CanvasElement  {
     this.canvas.width = this.width;
     this.canvas.height = this.height;
 
-    this.canvas.addEventListener("mousedown",this.onMouseDown)
-    this.canvas.addEventListener("mouseup",this.onMouseUp)
-    this.canvas.addEventListener("mousemove",this.onMouseMove)
+    this.canvas.addEventListener("mousedown", this.onMouseDown);
+    this.canvas.addEventListener("mouseup", this.onMouseUp);
+    this.canvas.addEventListener("mousemove", this.onMouseMove);
   }
 
   addDraw(drawable: Drawable): void {
@@ -32,56 +32,68 @@ class CanvasComponent extends CanvasElement  {
     console.log("added", drawable);
     this.clear();
     this.draw();
-   
   }
-  private onMouseMove = (event:MouseEvent): void => {
-    const x = event.offsetX;
-    const y = event.offsetY;
-    if(this.clickedDrawable?.isMoving){
-      this.clickedDrawable.dx = x;
-      this.clickedDrawable.dy = y;
-    }
+  private onMouseMove = (event: MouseEvent): void => {
+    const cursorX = event.offsetX;
+    const cursorY = event.offsetY;
     this.clear();
     this.draw();
-    this.ctx.fillText(`Mouse position: ${x}, ${y}`, 10, 50);
-    
-  }
-  private onMouseUp = (event:MouseEvent): void => {
+    if (this.clickedDrawable?.isMoving) {
+      this.clickedDrawable.getSize();
+      this.clickedDrawable.dx = cursorX - this.clickedDrawable.width/2   ;
+      this.clickedDrawable.dy = cursorY  - this.clickedDrawable.height/2;
+      
+      this.ctx.fillText(`image position: ${this.clickedDrawable.dx}, ${this.clickedDrawable.dy}`, 10, 50);
+      this.ctx.fillText(`image heigs: ${this.clickedDrawable?.width}, ${this.clickedDrawable?.height}`, 10, 60);
+
+    }
+   
+    this.ctx.fillText(`Mouse position: ${cursorX}, ${cursorY}`, 10, 30);
+
+  }; 
+  private onMouseUp = (event: MouseEvent): void => {
     console.log("Mouse up");
-    this.clickedDrawable ?  this.clickedDrawable.isMoving = false : undefined;
-     
-  }
+    this.clickedDrawable ? (this.clickedDrawable.isMoving = false) : undefined;
+  };
   private onMouseDown = (event: MouseEvent): void => {
     console.log("Mouse Down");
-    const x = event.offsetX;
-    const y = event.offsetY;
+    const cursorX = event.offsetX;
+    const cursorY = event.offsetY;
     const drawables = this.drawables;
-    this.clickedDrawable = this.getClickDrawable(drawables as Image[],x as number,y as number);
-    this.clickedDrawable ? this.clickedDrawable.isMoving = true : undefined ;
+    this.clickedDrawable = this.getClickDrawable(
+      drawables as Image[],
+      cursorX as number,
+      cursorY as number
+    );
+    
+    this.clickedDrawable ? (this.clickedDrawable.isMoving = true) : undefined;
   };
 
-  getClickDrawable(drawables:Image[],x:number,y:number) : ImageDraw | undefined {
+  getClickDrawable(
+    drawables: Image[],
+    cursorX: number,
+    cursorY: number
+  ): ImageDraw | undefined {
     for (let index = 0; index < drawables.length; index++) {
       const drawable = drawables[index] as Image;
-  
-      // Check if the drawable is an instance of the IImage interface.
+      
       if (drawable instanceof ImageDraw) {
-        // Check if the mouse is inside the image.
         const rect = drawable.image.getBoundingClientRect();
-         x = x - rect.left;
-         y = y - rect.top;
-  
-        if (x >= drawable.dx && x <= drawable.image.width + x && y >= drawable.dy && y <= drawable.image.height + y) {
+        cursorX -= rect.left;
+        cursorY -= rect.top;
+      
+        if (drawable.isMouseOver(cursorX, cursorY)) {
           // Handle the event as needed.
           this.clear();
           this.draw();
+          
           this.ctx.fillText(`Click over: ${drawable.name}`, 50, 50);
           console.log(`Click over: ${drawable.name}`);
           return drawable;
         }
-      } 
-    
-    }  return undefined;
+      }
+    }
+    return undefined;
   }
   draw(): void {
     this.drawables.forEach((drawable) => {
@@ -91,7 +103,7 @@ class CanvasComponent extends CanvasElement  {
   drawImage(image: HTMLImageElement, dx: number, dy: number): void {
     image.onload = () => {
       this.ctx.drawImage(image, dx ?? 0, dy ?? 0);
-      this.drawables.push()
+      this.drawables.push();
     };
   }
   resize(): void {

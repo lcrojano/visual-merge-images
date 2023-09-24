@@ -1,3 +1,0 @@
-interface Resizable{
-    resize():void;
-}

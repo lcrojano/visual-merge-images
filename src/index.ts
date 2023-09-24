@@ -4,7 +4,7 @@ const canvas = new CanvasComponent({
   name: "capa1",
   width: 500,
   height: 500,
-} as DrawableElement);
+} as DrawableShape);
 
 addImageButton.addEventListener("click", (event) => {
   const canvas = getCanvasComponent();
@@ -22,7 +22,7 @@ addImageButton.addEventListener("click", (event) => {
           name: `image ${i}`,
           width: 400,
           height: 400,
-        } as DrawableElement,
+        } as DrawableShape,
         localFiles[i],
         canvas
       );

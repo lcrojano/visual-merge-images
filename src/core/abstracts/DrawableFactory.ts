@@ -1,5 +1,5 @@
 class DrawableFactory {
-  createImage(image: DrawableElement, file: File, canvas: Canvas) {
+  createImage(image: DrawableShape, file: File, canvas: Canvas) {
     return new ImageDraw(image, file, canvas);
   }
 

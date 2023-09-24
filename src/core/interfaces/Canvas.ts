@@ -1,6 +1,6 @@
 interface Canvas {
     addDraw(drawable:Drawable):void,
-    draw(image?:HTMLImageElement,dx?:number, dy?:number,): void;
+    draw(): void;
     getContext(): CanvasRenderingContext2D;
     clear(): void;
   }
