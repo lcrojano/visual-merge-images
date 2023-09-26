@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/lcrojano/visual-merge-imageshttps:/issues"
   },
-  "homepage": "https://github.com/lcrojano/visual-merge-imageshttps:#readme"
+  "homepage": "https://github.com/lcrojano/visual-merge-imageshttps:#readme",
+  "dependencies": {
+    "ts-node": "^10.9.1"
+  }
 }
